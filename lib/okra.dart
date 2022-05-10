@@ -1,5 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:okra_widget/utils/device_info.dart';
 import 'models/okra_handler.dart';
 import 'dart:io' show Platform;
 import 'view/web.dart';
@@ -7,16 +8,18 @@ import 'view/web.dart';
 class Okra {
   static Future<OkraHandler?> create(
       BuildContext context, Map<String, dynamic> okraOptions) async {
-    AndroidDeviceInfo? androidDeviceInfo;
-    IosDeviceInfo? iosDeviceInfo;
-
+    var deviceInfo = Platform.isAndroid
+        ? await DeviceInfo.getAndroidInfo()
+        : await DeviceInfo.getIosInfo();
     okraOptions["uuid"] = Platform.isAndroid
-        ? androidDeviceInfo!.androidId
-        : iosDeviceInfo!.identifierForVendor;
-    String? deviceName =
-        Platform.isAndroid ? androidDeviceInfo!.brand : iosDeviceInfo!.name;
-    String? deviceModel =
-        Platform.isAndroid ? androidDeviceInfo!.model : iosDeviceInfo!.model;
+        ? (deviceInfo as AndroidDeviceInfo?)?.androidId ?? ''
+        : (deviceInfo as IosDeviceInfo?)?.identifierForVendor ?? '';
+    String? deviceName = Platform.isAndroid
+        ? (deviceInfo as AndroidDeviceInfo?)?.brand
+        : (deviceInfo as IosDeviceInfo?)?.name;
+    String? deviceModel = Platform.isAndroid
+        ? (deviceInfo as AndroidDeviceInfo?)?.model
+        : (deviceInfo as IosDeviceInfo?)?.model;
     okraOptions["deviceInfo"] = {
       "deviceName": deviceName ?? '',
       "deviceModel": deviceModel ?? '',
