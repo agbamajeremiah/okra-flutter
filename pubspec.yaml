@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   webview_flutter: ^3.0.0
-  device_info: ^2.0.2
+  device_info_plus: ^3.2.3
 
 
 dev_dependencies:
