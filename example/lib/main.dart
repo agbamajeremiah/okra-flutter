@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     "filter": {"industry_type": "all", "banks": banks}
                   };
 
-                  OkraHandler reply = await Okra.create(context, okraOptions);
+                  OkraHandler? reply = await Okra.create(context, okraOptions);
                 }),
           ],
         ),
